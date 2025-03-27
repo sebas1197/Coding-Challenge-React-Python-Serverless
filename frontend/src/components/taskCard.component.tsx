@@ -1,6 +1,13 @@
 import React from "react";
 import { Task, TASK_STATUS } from "../models/task.model";
-import { Card, CardContent, Typography, Button, Box, IconButton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  IconButton,
+} from "@mui/material";
 
 interface TaskCardProps {
   task: Task;
@@ -8,7 +15,11 @@ interface TaskCardProps {
   onUpdateStatus: (id: number, status: TASK_STATUS) => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onUpdateStatus }) => {
+const TaskCard: React.FC<TaskCardProps> = ({
+  task,
+  onDelete,
+  onUpdateStatus,
+}) => {
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       onDelete(task.id);
@@ -27,13 +38,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onUpdateStatus }) =
         <Typography variant="body1">
           <strong>Status:</strong> {task.status}
         </Typography>
-        <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+        <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
           <Button
             variant="contained"
             sx={{
               backgroundColor: "#1976d2",
               color: "white",
-              "&:hover": { backgroundColor: "#1565c0" }
+              "&:hover": { backgroundColor: "#1565c0" },
             }}
             onClick={() => onUpdateStatus(task.id, TASK_STATUS.TO_DO)}
           >
@@ -44,7 +55,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onUpdateStatus }) =
             sx={{
               backgroundColor: "#FFA500",
               color: "white",
-              "&:hover": { backgroundColor: "#FF8C00" }
+              "&:hover": { backgroundColor: "#FF8C00" },
             }}
             onClick={() => onUpdateStatus(task.id, TASK_STATUS.IN_PROGRESS)}
           >
@@ -55,7 +66,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onDelete, onUpdateStatus }) =
             sx={{
               backgroundColor: "#388E3C",
               color: "white",
-              "&:hover": { backgroundColor: "#2E7D32" }
+              "&:hover": { backgroundColor: "#2E7D32" },
             }}
             onClick={() => onUpdateStatus(task.id, TASK_STATUS.COMPLETED)}
           >

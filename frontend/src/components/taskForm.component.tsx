@@ -11,7 +11,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAdd }) => {
   const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
-    if (title.trim() === "") return; // Evita agregar tareas sin título
+    if (title.trim() === "") return;
     const newTask: Task = {
       id: Date.now(),
       title,
@@ -30,7 +30,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAdd }) => {
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        width: "400px",
+        // Make this responsive: take full width but limit max width
+        width: "100%",
+        maxWidth: 400,
       }}
     >
       <TextField
@@ -39,7 +41,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAdd }) => {
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
         variant="outlined"
-        InputLabelProps={{ shrink: true }} // Label siempre visible
+        InputLabelProps={{ shrink: true }}
       />
       <TextField
         label="Task Description"

@@ -10,8 +10,8 @@ import {
     Dialog,
     DialogTitle,
     DialogContent,
+    Grid,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
 
 import TaskCard from "../components/taskCard.component";
 import TaskForm from "../components/taskForm.component";
@@ -43,22 +43,20 @@ const Home: React.FC = () => {
         refreshTasks();
     };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <>
             <NavBar />
             <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5", py: 4 }}>
+                {/* Container with maxWidth="md" is generally good for desktop/tablet,
+            but it will also be responsive on mobile. */}
                 <Container maxWidth="md">
                     <Typography variant="h3" align="center" gutterBottom>
                         Task Manager
                     </Typography>
+
                     <Box textAlign="center" mb={3}>
                         <Button variant="contained" color="primary" onClick={handleOpen}>
                             Add Task
@@ -77,7 +75,8 @@ const Home: React.FC = () => {
                         ))}
                     </Grid>
 
-                    <Dialog open={open} onClose={handleClose}>
+                    {/* Make the dialog fullWidth and constrain its maxWidth for better mobile responsiveness */}
+                    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
                         <DialogTitle>Add New Task</DialogTitle>
                         <DialogContent>
                             <TaskForm onAdd={addTask} />

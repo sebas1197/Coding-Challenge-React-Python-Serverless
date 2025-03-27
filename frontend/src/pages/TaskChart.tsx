@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardContent, Typography, Box } from "@mui/material";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
-import { COLORS, TaskChartPageProps } from "../models/graphics";
+import { COLORS, TaskChartPageProps } from "../models/graphics.model";
 import { TASK_STATUS } from "../models/task.model";
 import NavBar from "../components/menu.component";
 
