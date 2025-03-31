@@ -4,8 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import LoginSerializer, TaskSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 class TaskListView(APIView):
+    @swagger_auto_schema(operation_description="Lista todas las tareas")
+    @swagger_auto_schema(request_body=TaskSerializer)
     def get(self, request):
         try:
             external_response = requests.get(settings.EXTERNAL_API["LIST"])
@@ -16,6 +19,8 @@ class TaskListView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class TaskCreateView(APIView):
+    @swagger_auto_schema(operation_description="Crear una tarea")
+    @swagger_auto_schema(request_body=TaskSerializer)
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -29,6 +34,8 @@ class TaskCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 class TaskUpdateView(APIView):
+    @swagger_auto_schema(operation_description="Actualizar el estado de una tarea")
+    @swagger_auto_schema(request_body=TaskSerializer)
     def put(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -42,6 +49,8 @@ class TaskUpdateView(APIView):
         return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 class TaskDeleteView(APIView):
+    @swagger_auto_schema(operation_description="Eliminar tarea")
+    @swagger_auto_schema(request_body=TaskSerializer)
     def delete(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -56,7 +65,8 @@ class TaskDeleteView(APIView):
 
 
 class TaskLoginView(APIView):
-
+    @swagger_auto_schema(operation_description="Login, credenciales de usuario y clave")
+    @swagger_auto_schema(request_body=TaskSerializer)
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
