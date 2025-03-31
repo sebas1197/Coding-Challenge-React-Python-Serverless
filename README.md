@@ -35,7 +35,6 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
 ## DOCKER🚀
 - 
 
-    ```bash
     docker build -t django-backend .
 
     docker run -p 8000:8000 django-backend
@@ -43,7 +42,8 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
     docker build -t react-frontend .
 
     docker run -p 3000:3000 react-frontend
-   ```
+
+
 
 ## Autor ✒️
 
