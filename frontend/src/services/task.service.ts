@@ -2,6 +2,9 @@ import { Task, TASK_STATUS } from "../models/task.model";
 
 
 export class TaskService {
+
+    private static API_BASE: string = process.env.REACT_APP_API_BASE || 'http://localhost:8000/tasks';
+
     tasks: Task[] = [];
 
     getTasks = (): Task[] => this.tasks
