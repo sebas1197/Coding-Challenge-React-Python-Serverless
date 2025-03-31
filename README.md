@@ -45,7 +45,6 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
     docker run -p 3000:3000 react-frontend
    ```
 
-
 ## Autor ✒️
 
 * **Ing.Sebastián Landázuri G** 
