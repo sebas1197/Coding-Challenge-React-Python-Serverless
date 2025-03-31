@@ -1,5 +1,5 @@
 import React from "react";
-import { Task, TASK_STATUS } from "../models/task.model";
+import { Task } from "../models/task.model";
 import {
   Card,
   CardContent,
@@ -12,13 +12,13 @@ import {
 interface TaskCardProps {
   task: Task;
   onDelete: (id: number) => void;
-  onUpdateStatus: (id: number, status: TASK_STATUS) => void;
+  onUpdate: (updatedTask: Task) => void;
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({
   task,
   onDelete,
-  onUpdateStatus,
+  onUpdate,
 }) => {
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this task?")) {
@@ -46,7 +46,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
               color: "white",
               "&:hover": { backgroundColor: "#1565c0" },
             }}
-            onClick={() => onUpdateStatus(task.id, TASK_STATUS.TO_DO)}
+            onClick={() => onUpdate(task)}
           >
             To Do
           </Button>
@@ -57,7 +57,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
               color: "white",
               "&:hover": { backgroundColor: "#FF8C00" },
             }}
-            onClick={() => onUpdateStatus(task.id, TASK_STATUS.IN_PROGRESS)}
+            onClick={() => onUpdate(task)}
           >
             In Progress
           </Button>
@@ -68,7 +68,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
               color: "white",
               "&:hover": { backgroundColor: "#2E7D32" },
             }}
-            onClick={() => onUpdateStatus(task.id, TASK_STATUS.COMPLETED)}
+            onClick={() => onUpdate(task)}
           >
             Complete
           </Button>

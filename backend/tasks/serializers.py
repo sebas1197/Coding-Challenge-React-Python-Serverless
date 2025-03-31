@@ -5,3 +5,9 @@ class TaskSerializer(serializers.Serializer):
     title = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
     status = serializers.ChoiceField(choices=["TO_DO", "IN_PROGRESS", "COMPLETED"], required=False)
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    

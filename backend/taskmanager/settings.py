@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
     'tasks',
 ]
 
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = "taskmanager.urls"
@@ -69,6 +71,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 WSGI_APPLICATION = "taskmanager.wsgi.application"
 
@@ -126,20 +130,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Endpoints externos
 EXTERNAL_API = {
     "LIST": "https://zetcac58k3.execute-api.us-east-1.amazonaws.com/dev/tasks",
     "CREATE": "https://zetcac58k3.execute-api.us-east-1.amazonaws.com/dev/tasks/create",
     "UPDATE": "https://zetcac58k3.execute-api.us-east-1.amazonaws.com/dev/tasks/update",
     "DELETE": "https://zetcac58k3.execute-api.us-east-1.amazonaws.com/dev/tasks/delete",
-}
-
-# Configuración de REST Framework (ejemplo de autenticación simple)
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',  # o TokenAuthentication
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
+    "LOGIN": "https://zetcac58k3.execute-api.us-east-1.amazonaws.com/dev/tasks/login",
 }

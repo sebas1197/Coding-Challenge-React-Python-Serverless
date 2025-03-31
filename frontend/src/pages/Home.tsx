@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TaskService } from "../services/task.service";
-import { Task, TASK_STATUS } from "../models/task.model";
+import { Task } from "../models/task.model";
 
 import {
     Container,
@@ -20,22 +20,39 @@ import NavBar from "../components/menu.component";
 const taskService = new TaskService();
 
 const Home: React.FC = () => {
-    const [tasks, setTasks] = useState<Task[]>(taskService.getTasks());
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [open, setOpen] = useState(false);
 
-    const refreshTasks = () => {
-        setTasks([...taskService.getTasks()]);
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const data = await taskService.listTasks();
+                setTasks(data);
+            } catch (err) {
+                console.error('Failed to fetch tasks:', err);
+            }
+        };
+
+        fetchTasks();
+    }, []);
+
+    const refreshTasks = async () => {
+        setTasks([... await taskService.listTasks()]);
     };
 
     const addTask = (task: Task) => {
-        taskService.addTask(task);
+        taskService.createTask(task);
         refreshTasks();
         handleClose();
     };
 
-    const updateTaskStatus = (taskId: number, status: TASK_STATUS) => {
-        taskService.updateTask(taskId, status);
-        refreshTasks();
+    const updateTask = async (updatedTask: Task) => {
+        try {
+            await taskService.updateTask(updatedTask);
+            refreshTasks();
+        } catch (err) {
+            console.error("Failed to update task:", err);
+        }
     };
 
     const deleteTask = (taskId: number) => {
@@ -69,7 +86,7 @@ const Home: React.FC = () => {
                                 <TaskCard
                                     task={task}
                                     onDelete={deleteTask}
-                                    onUpdateStatus={updateTaskStatus}
+                                    onUpdate={updateTask}
                                 />
                             </Grid>
                         ))}

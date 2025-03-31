@@ -3,12 +3,9 @@ from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import TaskSerializer
+from .serializers import LoginSerializer, TaskSerializer
 
 class TaskListView(APIView):
-    """
-    GET: Lista todas las tareas
-    """
     def get(self, request):
         try:
             external_response = requests.get(settings.EXTERNAL_API["LIST"])
@@ -19,9 +16,6 @@ class TaskListView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class TaskCreateView(APIView):
-    """
-    POST: Crea una nueva tarea
-    """
     def post(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -35,9 +29,6 @@ class TaskCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 class TaskUpdateView(APIView):
-    """
-    PUT: Actualiza el estado de una tarea
-    """
     def put(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -51,9 +42,6 @@ class TaskUpdateView(APIView):
         return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 class TaskDeleteView(APIView):
-    """
-    DELETE: Elimina una tarea
-    """
     def delete(self, request):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
@@ -64,4 +52,22 @@ class TaskDeleteView(APIView):
                 return Response({"error": "Error al eliminar la tarea"}, status=external_response.status_code)
             except Exception as e:
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
+class TaskLoginView(APIView):
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                external_response = requests.post(settings.EXTERNAL_API["LOGIN"], json=serializer.data)
+
+                if external_response.status_code == 200:
+                    return Response({"message": "Login successfully!"}, status=status.HTTP_200_OK)
+
+                return Response({"error": "Error in login"}, status=external_response.status_code)
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         return Response(serializer.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)

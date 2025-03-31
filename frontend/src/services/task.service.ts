@@ -1,27 +1,54 @@
-import { Task, TASK_STATUS } from "../models/task.model";
+import axios, { AxiosResponse } from "axios";
+import { Task } from "../models/task.model";
 
 
 export class TaskService {
 
-    private static API_BASE: string = process.env.REACT_APP_API_BASE || 'http://localhost:8000/tasks';
+    private API_BASE: string = 'http://127.0.0.1:8000';
 
-    tasks: Task[] = [];
-
-    getTasks = (): Task[] => this.tasks
-
-    addTask = (task: Task): void => {
-        this.tasks.push(task)
+    public async listTasks(): Promise<Task[]> {
+        try {
+            const response: AxiosResponse<Task[]> = await axios.get(`${this.API_BASE}/list/`);
+            if (response.status === 200) {
+                return response.data;
+            }
+            throw new Error(`Unexpected HTTP status: ${response.status}`);
+        } catch (error) {
+            throw error;
+        }
     }
 
-    updateTask = (taskId: number, status: TASK_STATUS): void => {
-        const task = this.tasks.find(task => task.id == taskId)
-        if(task){
-            task.status = status
+    public async createTask(task: Task): Promise<string> {
+        try {
+            const response: AxiosResponse<{ message: string }> = await axios.post(`${this.API_BASE}/create/`, task);
+            if (response.status === 201) {
+                return response.data.message;
+            }
+            throw new Error(`Unexpected HTTP status: ${response.status}`);
+        } catch (error) {
+            throw error;
         }
-    } 
+    }
 
-    deleteTask = (taskId: number): void => {
-        this.tasks = this.tasks.filter(task => task.id !== taskId)
+
+    async updateTask(updatedTask: Task): Promise<string> {
+        const response: AxiosResponse<{ message: string }> = await axios.put(`${this.API_BASE}/update/`, updatedTask);
+        if (response.status === 200) {
+            return response.data.message;
+        }
+        throw new Error(`Unexpected HTTP status: ${response.status}`);
+    }
+
+    public async deleteTask(taskId: number): Promise<string> {
+        try {
+            const response: AxiosResponse<{ message: string }> = await axios.delete(`${this.API_BASE}/delete/`, { data: { _id: taskId } });
+            if (response.status === 200) {
+                return response.data.message;
+            }
+            throw new Error(`Unexpected HTTP status: ${response.status}`);
+        } catch (error) {
+            throw error;
+        }
     }
 
 }

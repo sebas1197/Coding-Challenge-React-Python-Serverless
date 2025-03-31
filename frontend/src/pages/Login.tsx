@@ -23,8 +23,7 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear authentication state when navigating to login
-    localStorage.removeItem("isAuthenticated");
+    sessionStorage.removeItem("isAuthenticated");
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,8 +34,8 @@ const LoginPage: React.FC = () => {
     const credentials: Login = { username, password };
 
     try {
-      await loginService.loginService(credentials);
-      localStorage.setItem("isAuthenticated", "true");
+      await loginService.login(credentials);
+      sessionStorage.setItem("isAuthenticated", "true");
       navigate("/home");
     } catch (err) {
       setError((err as Error).message);
