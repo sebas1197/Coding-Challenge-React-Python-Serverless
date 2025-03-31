@@ -4,7 +4,7 @@ import { Login } from "../models/login.model";
 
 export class LoginService {
 
-    private API_BASE: string = 'http://127.0.0.1:8000';
+    private API_BASE: string = process.env.REACT_APP_LOCAL_BACKEND_URL || "";
 
     public async login(login: Login): Promise<string> {
         try {

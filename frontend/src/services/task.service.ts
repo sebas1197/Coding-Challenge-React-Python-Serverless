@@ -4,7 +4,7 @@ import { Task } from "../models/task.model";
 
 export class TaskService {
 
-    private API_BASE: string = 'http://127.0.0.1:8000';
+    private API_BASE: string = process.env.REACT_APP_LOCAL_BACKEND_URL || "";
 
     public async listTasks(): Promise<Task[]> {
         try {
