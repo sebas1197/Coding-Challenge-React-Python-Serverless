@@ -33,6 +33,7 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
    ```
 
 ## DOCKER🚀
+- 
 
     ```bash
     docker build -t django-backend .
